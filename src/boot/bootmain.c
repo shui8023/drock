@@ -18,6 +18,32 @@
 
 void start_main()
 {
+	unsigned char *input = (unsigned char *)0xb8000;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+	*input++ = 'H';
+	*input++ = 0x70;
+
 	while (1);
 
 }

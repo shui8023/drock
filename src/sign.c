@@ -28,7 +28,7 @@ main(int argc, char *argv[]) {
         return -1;
     }
     fclose(ifp);
-    buf[510] = 0x55;
+    buf[510] = 0x55; 	
     buf[511] = 0xAA;
     FILE *ofp = fopen(argv[2], "wb+");
     size = fwrite(buf, 1, 512, ofp);
