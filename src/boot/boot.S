@@ -1,7 +1,7 @@
 #
 # From the real mode to the protected mode 
 
-#include <asm.h>
+#include "asm.h"
 
 .set PROT_MODE_CSEG,        0x8                     # kernel code segment selector
 .globl start
