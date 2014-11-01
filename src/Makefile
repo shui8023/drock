@@ -30,7 +30,9 @@ SS_FLAGE=
 
 #
 #必须把第一个boot.S的文本段放在前面
-LD_FLAGS= -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00 
+LD_BOOT_FLAGS= -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00 
+
+LD_KERNEL_FLAGS= -nostdlib -m elf_i386  -T ./tool/kernel.lds
 
 OBJ_FLAGS= -S -O binary  bin/bootblock.o  bin/bootblock.out
 
@@ -47,18 +49,18 @@ mkdir_file:
 	@echo $<...
 	$(CC) $(CC_FLAGE)  $< -o $@
 ld_boot:
-	$(LD)  $(LD_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME)
+	$(LD)  $(LD_BOOT_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME)
 ld_kernel:
-	$(LD)
+	$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS)
 make_tool:
 	$(CC) ./tool/sign.c -o ./tool/sign
 obj:
 	$(OBJ) $(OBJ_FLAGS)
 	./tool/sign  bin/bootblock.out bin/bootblock
 dd:
-	dd if=/dev/zero of=ucore.img count=1000
-	dd if=bin/bootblock of=ucore.img conv=notrunc
+	dd if=/dev/zero of=./bin/drock.img count=1000
+	dd if=bin/bootblock of=./bin/drock.img conv=notrunc
 qemu:
-	$(QEMU) -parallel stdio -hda ucore.img
+	$(QEMU) -parallel stdio -hda bin/drock.img
 clean:
 	rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS)
