@@ -1,30 +1,30 @@
 ENTRY(main)
 
 SECTIONS {
-	.= 0x100000;
+	. = 0x100000;
 	
-	.text:{
+	.text :{
 		*(.text)
-		.=ALIGN(4096);
+		. = ALIGN(4096);
 	}
 
-	.data:{
+	.data :{
 		*(.data)
 		*(.rodata)
-		.=ALIGN(4096);
+		. = ALIGN(4096);
 	}
-	.bss:{
+	.bss :{
 		*(.bss)
-		.=ALIGN(4096);
+		. = ALIGN(4096);
 	}
 
-	.stab:{
+	.stab :{
 		*(.stab)
-		.=ALIGN(4096);
+		. = ALIGN(4096);
 	}
 
-	.stabstr:{
+	.stabstr :{
 		*(.stabstr)
-		.=ALIGN(4096);
+		. = ALIGN(4096);
 	}
 }

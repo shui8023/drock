@@ -18,31 +18,10 @@
 
 void start_main()
 {
-	unsigned char *input = (unsigned char *)0xb8000;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
-	*input++ = 'H';
-	*input++ = 0x70;
+	/*
+	 *read the elf header, find the elf entry address 
+	 *
+	 */
 
 	while (1);
 

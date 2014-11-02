@@ -18,12 +18,12 @@
 
 int main(void)
 {
-	unsigned char * input = (unsigned char *)(0xb8000);
+	unsigned char * input = (unsigned char *)0xb8000;
 	
 	int i = 0;
 	for (i = 0; i < 80 * 25; i += 2) {
-		*input[i] = 'H';
-		*input[i+1] = 0x70;
+		input[i] = 'H';
+		input[i+1] = 0x70;
 	}
 
 
