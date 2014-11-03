@@ -95,6 +95,10 @@ start_main()
 	for (; ph < ehp; ++ph) {
 		readseg(ph->p_va & 0xFFFFFF, ph->p_memsz, ph->p_offset);
 	}
+	uint8_t *input = (uint8_t *)0xb8000;
+	*input++ = 'H';
+	*input++ = 0x07;
+
 	((void (*)(void))(ELFHDR->e_entry & 0xFFFFF))();	
 
 	while (1);

@@ -68,6 +68,11 @@ dd:
 	dd if=./bin/bootblock of=./bin/drock.img conv=notrunc
 	dd if=./bin/drock  of=./bin/drock.img seek=1 conv=notrunc
 qemu:
-	$(QEMU) -parallel stdio -hda bin/drock.img
+	$(QEMU) -parallel stdio -hda bin/drock.img 
+debug:
+	$(QEMU) -parallel stdio -hda bin/drock.img -S -s
+	sleep(1)
+	cgdb -x ./tool/gdbinit
+
 clean:
 	rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)

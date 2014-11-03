@@ -26,6 +26,7 @@ int main(void)
 		input[i+1] = 0x70;
 	}
 
-
+	while (1);
+	
 	return 0;
 }
