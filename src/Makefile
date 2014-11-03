@@ -31,10 +31,9 @@ QEMU=qemu-system-i386
 
 OBJ=objcopy 
 
-CC_FLAGE= -c  -nostdlib -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 
+CC_FLAGE= -c  -nostdlib -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs -O2
 
-SS_FLAGE= 
-
+oldincludedir = ./libs
 #
 #必须把第一个boot.S的文本段放在前面
 LD_BOOT_FLAGS= -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00 
@@ -56,9 +55,9 @@ mkdir_file:
 	@echo $<...
 	$(CC) $(CC_FLAGE)  $< -o $@
 ld_boot:
-	$(LD)  $(LD_BOOT_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME)
+	$(LD)  $(LD_BOOT_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME) 
 ld_kernel:
-	$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS) -o ./bin/drock
+	$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS) -o ./bin/drock -I ./libs
 make_tool:
 	$(CC) $(C_SING) -o ./tool/sign
 obj:

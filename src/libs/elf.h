@@ -27,7 +27,8 @@
  *elf header struct 
  *we can use the readelf to view 
  */
-typedef struct {
+
+struct elfhdr {
 	uint8_t 	e_ident[MAGIC_HEAD_COUNT];
 	uint16_t 	e_type;
 	uint16_t 	e_machine;
@@ -42,6 +43,17 @@ typedef struct {
 	uint16_t 	e_shentsize;
 	uint16_t 	e_shnum;
 	uint16_t 	e_shstrndx;
-}elf_header_t;
+};
+
+struct proghdr {
+	uint32_t 	p_type;
+	uint32_t 	p_offset;
+	uint32_t 	p_va;
+	uint32_t 	p_pa;
+	uint32_t 	p_filesz;
+	uint32_t 	p_memsz;
+	uint32_t 	p_flags;
+	uint32_t 	p_align;
+};
 
 #endif //ELF_H
