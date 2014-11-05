@@ -31,14 +31,13 @@ QEMU=qemu-system-i386
 
 OBJ=objcopy 
 
-CC_FLAGE= -c  -nostdlib -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs -O2
+CC_FLAGE= -c  -nostdinc -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs -O2
 
-oldincludedir = ./libs
 #
 #必须把第一个boot.S的文本段放在前面
-LD_BOOT_FLAGS= -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00 
+LD_BOOT_FLAGS= -m elf_i386 -nostdinc -N -e start -Ttext 0x7C00 
 
-LD_KERNEL_FLAGS= -nostdlib -m elf_i386  -T ./tool/kernel.lds
+LD_KERNEL_FLAGS= -nostdinc  -m elf_i386  -T ./tool/kernel.ld
 
 OBJ_FLAGS= -S -O binary  bin/bootblock.o  bin/bootblock.out
 
@@ -64,15 +63,14 @@ obj:
 	$(OBJ) $(OBJ_FLAGS)
 	./tool/sign  bin/bootblock.out bin/bootblock
 dd:
-	dd if=/dev/zero of=./bin/drock.img count=1000
+	dd if=/dev/zero of=./bin/drock.img count=10000
 	dd if=./bin/bootblock of=./bin/drock.img conv=notrunc
 	dd if=./bin/drock  of=./bin/drock.img seek=1 conv=notrunc
 qemu:
 	$(QEMU) -parallel stdio -hda bin/drock.img 
 debug:
-	$(QEMU) -parallel stdio -hda bin/drock.img -S -s
-	sleep(1)
-	cgdb -x ./tool/gdbinit
+	$(QEMU) -parallel stdio -hda bin/drock.img -S  &
+#	cgdb -x ./tool/gdbinit
 
 clean:
 	rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)

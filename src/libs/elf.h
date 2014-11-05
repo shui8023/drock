@@ -21,7 +21,7 @@
 
 #include "defs.h"
 
-#define MAGIC_HEAD_COUNT 	16
+#define MAGIC_HEAD_COUNT 	12
 
 /*
  *elf header struct 
@@ -29,6 +29,7 @@
  */
 
 struct elfhdr {
+	uint32_t 	e_magic;
 	uint8_t 	e_ident[MAGIC_HEAD_COUNT];
 	uint16_t 	e_type;
 	uint16_t 	e_machine;

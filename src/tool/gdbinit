@@ -1,4 +1,4 @@
 file ./bin/drock
 target remote :1234
-break main
+break 0x7c00
 continue

@@ -15,9 +15,9 @@
  *
  * =====================================================================================
  */
-#include <x86.h>
-#include <elf.h>
-#include <defs.h>
+#include "x86.h"
+#include "elf.h"
+#include "defs.h"
 
 
 #define SECTSIZE 512
@@ -30,7 +30,7 @@ readsect(void *load_address, uint32_t count)
 	/*使用LBA28来访问硬盘，0x1F7是一个命令端口，又是一个状态端口，
 	 *它将0x1f7端口的第7位置为1,表示很忙，把第三位置1,表示准备好了
 	 */
-	while ((inb(0x1F7) & 0x88) != 0x8) {
+	while ((inb(0x1F7) & 0xC0) != 0x40) {
 		;
 	}	
 	
@@ -38,12 +38,12 @@ readsect(void *load_address, uint32_t count)
 	outb(0x1F3, count & 0xFF); 		//提取0-7位
 	outb(0x1F4, (count >> 8) & 0xFF); 	//提取8-15位
 	outb(0x1F5, (count >> 16) & 0xFF); 	//提取16-23
-	outb(0x1F6, (count >> 24) & 0xF); 	//提取24-27
+	outb(0x1F6, ((count >> 24) & 0xF) | 0xE0); 	//提取24-27
 
 	outb(0x1F7, 0x20);
 
 	
-	while ((inb(0x1F7) & 0x88) != 0x8) {
+	while ((inb(0x1F7) & 0xC0) != 0x40) {
 		;
 	}
 	
@@ -71,7 +71,7 @@ readseg(uint32_t va, uint32_t count, uint32_t offset)
 	/*va是内存中起始位置
 	 *
 	 */
-	for (; va_end < va; va += SECTSIZE, ++sector_number) {
+	for (; va < va_end; va += SECTSIZE, ++sector_number) {
 		readsect((void *)va, sector_number);
 	}
 }
@@ -95,12 +95,15 @@ start_main()
 	for (; ph < ehp; ++ph) {
 		readseg(ph->p_va & 0xFFFFFF, ph->p_memsz, ph->p_offset);
 	}
+
+
 	uint8_t *input = (uint8_t *)0xb8000;
-	*input++ = 'H';
+	*input++ = '-';
 	*input++ = 0x07;
 
-	((void (*)(void))(ELFHDR->e_entry & 0xFFFFF))();	
-
+	((void (*)(void))(ELFHDR->e_entry & 0xFFFFFF))();	
+	
 	while (1);
+
 
 }

@@ -16,17 +16,17 @@
  * =====================================================================================
  */
 
-int main(void)
+int start(void)
 {
 	unsigned char * input = (unsigned char *)0xb8000;
 	
 	int i = 0;
-	for (i = 0; i < 80 * 25; i += 2) {
-		input[i] = 'H';
+	for (i = 0; i < 800 * 25; i += 2) {
+		input[i] = ' ';
 		input[i+1] = 0x70;
 	}
 
 	while (1);
-	
+	sleep(-1);
 	return 0;
 }
