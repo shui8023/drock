@@ -37,7 +37,7 @@ CC_FLAGE= -c  -nostdinc -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  
 #必须把第一个boot.S的文本段放在前面
 LD_BOOT_FLAGS= -m elf_i386 -nostdinc -N -e start -Ttext 0x7C00 
 
-LD_KERNEL_FLAGS= -nostdinc  -m elf_i386  -T ./tool/kernel.ld
+LD_KERNEL_FLAGS= -nostdinc  -m elf_i386  -T ./tool/kernel.lds
 
 OBJ_FLAGS= -S -O binary  bin/bootblock.o  bin/bootblock.out
 
