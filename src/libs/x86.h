@@ -24,8 +24,8 @@
 static inline uint8_t inb(uint16_t port) __attribute__((always_inline));
 static inline void outb(uint16_t port, uint8_t data) __attribute__((always_inline));
 static inline void insl(uint32_t port, void *addr, int cnt) __attribute__((always_inline));
-/*
- *
+
+/*封装了inb这个指令
  *
  */
 static inline uint8_t

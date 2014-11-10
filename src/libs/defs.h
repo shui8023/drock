@@ -26,5 +26,9 @@ typedef 	unsigned short  uint16_t;
 typedef 	char 		int8_t;
 typedef 	unsigned char 	uint8_t;
 
+typedef 	uint32_t 	size_t;
+
+typedef  (void *)0  NULL;
+
 #endif //DEFS_H
 

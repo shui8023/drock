@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  init.c
+ *       Filename:  string.c
  *
- *    Description:  start the drock kernel
+ *    Description:  字符串的操作函数
  *
  *        Version:  1.0
- *        Created:  2014年11月01日 21时54分25秒
+ *        Created:  2014年11月10日 19时51分24秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,17 +16,35 @@
  * =====================================================================================
  */
 
-int start(void)
+size_t 
+strlen(const void *ptr)
 {
-	unsigned char * input = (unsigned char *)0xb8000;
 	
-	int i = 0;
-	for (i = 0; i < 800 * 25; i += 2) {
-		input[i] = ' ';
-		input[i+1] = 0x70;
-	}
-
-	while (1);
-
-	return 0;
 }
+
+/**
+ *
+ *
+ * */
+int8_t *
+strcpy(int8_t *dest, const int8_t *src)
+{
+	
+}
+
+
+int32_t 
+strcmp(const int8_t *s1, const int8_t *s2)
+{
+	
+}
+
+
+void *
+memset(void *s, int c, size_t n)
+{
+	
+}
+
+void 
+bzero(void *s, size_t n);
