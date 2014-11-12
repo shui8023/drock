@@ -15,6 +15,7 @@
  *
  * =====================================================================================
  */
+#include <defs.h>
 
 size_t 
 strlen(const void *ptr)
@@ -29,7 +30,12 @@ strlen(const void *ptr)
 int8_t *
 strcpy(int8_t *dest, const int8_t *src)
 {
-	
+	int i = 0;
+
+	for (i = 0; i < strlen(src); ++i) {
+		
+	}
+
 }
 
 
