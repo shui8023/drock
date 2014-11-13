@@ -25,10 +25,13 @@ typedef 	short 		int16_t;
 typedef 	unsigned short  uint16_t;
 typedef 	char 		int8_t;
 typedef 	unsigned char 	uint8_t;
+typedef 	long 		int64_t;
+typedef 	unsigned long 	uint64_t;
 
 typedef 	uint32_t 	size_t;
 
 #define   NULL ((void *)0)
-
+#define   true 		1
+#define   false 	0
 #endif //DEFS_H
 
