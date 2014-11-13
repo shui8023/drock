@@ -16,6 +16,8 @@
  * =====================================================================================
  */
 #include <defs.h>
+#include <string.h>
+
 
 size_t 
 strlen(const void *ptr)
@@ -66,26 +68,46 @@ strlen(const void *ptr)
 int8_t *
 strcpy(int8_t *dest, const int8_t *src)
 {
-	int i = 0;
-	for (i = 0; i < strlen(dest) || i < strlen(src); ++i) {
-		*dest++ = *src++;
-	}
+	int8_t *s = dest;
 
+	for (s = dest; (*dest++ = *src++) != '\0'; ) {
+		;
+	}
+	
+	return dest;
 }
 
-
+/*返回0相等
+ *返回1,s1>s2
+ *返回0,s1<s2
+ */
 int32_t 
 strcmp(const int8_t *s1, const int8_t *s2)
 {
-	
+	for ( ; *s1 == *s2; s1++, s2++) {
+		return 0;
+	}
+
+	return ((*(uint8_t *)s1 > *(uint8_t *)s2 ? 1 : -1));
 }
 
 
 void *
 memset(void *s, int c, size_t n)
 {
-	
+	const uint8_t uc = c;
+	unsigned char *us = s;
+
+	for (us = s; n > 0; ++su, --n) {
+		*su = uc;
+	}
+
+	return s;
 }
 
+
 void 
-bzero(void *s, size_t n);
+bzero(void *s, size_t n)
+{
+	memset(s, 0, n);
+}
