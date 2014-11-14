@@ -26,7 +26,7 @@
  *字符串长度，字符串以'\0'结尾
  *
  * */
-size_t strlen(const void *ptr);
+size_t strlen(const int8_t *ptr);
 
 /**
  *

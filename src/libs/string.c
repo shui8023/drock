@@ -20,10 +20,10 @@
 
 
 size_t 
-strlen(const void *ptr)
+strlen(const char  *ptr)
 {
 	const int8_t *char_ptr;
-	const  uint64_t *longword_ptr;
+	  uint64_t longword_ptr;
 
 	register uint64_t longword, himagic, limagic;
 
@@ -33,7 +33,7 @@ strlen(const void *ptr)
 		}
 	}
 	
-	longword_ptr = (uint64_t)char_ptr;
+	longword_ptr = (uint64_t )char_ptr;
 	himagic = 0x80808080L;
 	limagic = 0x01010101L;
 
@@ -46,16 +46,16 @@ strlen(const void *ptr)
 			const int8_t *p = (int8_t *)(longword_ptr - 1);
 			
 			if (p[0] == '\0') {
-				return  c - str;
+				return  p - ptr;
 			}
 			if (p[1] == '\0') {
-				return c - str + 1;
+				return p - ptr + 1;
 			}
 			if (p[2] == '\0') {
-				return c - str + 2;
+				return p - ptr + 2;
 			}
 			if (p[3] == '\0') {
-				return c - str + 3;
+				return p - ptr + 3;
 			}
 		}
 	}
@@ -70,7 +70,7 @@ strcpy(int8_t *dest, const int8_t *src)
 {
 	int8_t *s = dest;
 
-	for (s = dest; (*dest++ = *src++) != '\0'; ) {
+	for (s = dest; (*s++ = *src++) != '\0'; ) {
 		;
 	}
 	
@@ -98,8 +98,8 @@ memset(void *s, int c, size_t n)
 	const uint8_t uc = c;
 	unsigned char *us = s;
 
-	for (us = s; n > 0; ++su, --n) {
-		*su = uc;
+	for (us = s; n > 0; ++us, --n) {
+		*us = uc;
 	}
 
 	return s;
