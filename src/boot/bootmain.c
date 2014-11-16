@@ -38,6 +38,7 @@ readsect(void *load_address, uint32_t count)
 	outb(0x1F3, count & 0xFF); 		//提取0-7位
 	outb(0x1F4, (count >> 8) & 0xFF); 	//提取8-15位
 	outb(0x1F5, (count >> 16) & 0xFF); 	//提取16-23
+	//上次的那个错误就是这个错了
 	outb(0x1F6, ((count >> 24) & 0xF) | 0xE0); 	//提取24-27
 
 	outb(0x1F7, 0x20);
