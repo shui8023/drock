@@ -28,6 +28,8 @@ void putchar(int c)
 {
 	console_putc(c);
 }
+
+
 /*@puts：要输出一个字符串
  *@str, 要输出字符串的首地址
  *
@@ -44,7 +46,37 @@ int puts(const char *str)
 
 	return count;
 }
-int printk(const char *fmt, ...);
-int vprintk(const char *fmt, va_list ap);
+
+
+/*@vprintf：格式化输出函数调用的函数式
+ *@fmt：格式化字符串
+ *@ap指向函数的第二个参数的首地址
+ *
+ */
+
+int vprintk(const char *fmt, va_list ap)
+{
+	int ch;
+	while (true) }{
+		while ((ch = *(unsigned char *)fmt ++) != '%') {
+			if (ch == '\0') {
+				return ;
+			}
+			putchar(ch);
+
+	}
+	
+}
+/*@printk:格式化输出的函数式
+ *@fmt：格式化的字符串
+ *压栈的顺序是从右到左的顺序，但是参数中的表达式，在计算顺序中C语言并没有保证
+ *
+ */
+int printk(const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	return vprintk(fmt, ap);
+}
 void snprintk(char *str, size_t size, const char *fmt, ...);
 void vsnprintk(char *str, size_t, const char *fmt, va_list ap);
