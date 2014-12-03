@@ -18,7 +18,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include <console.h>
+#include "console.h"
 
 /*@putchar:显示一个字符，默认颜色为黑底白字
  *@v， 要输出的字符
@@ -47,6 +47,40 @@ int puts(const char *str)
 	return count;
 }
 
+/*@getint 获得有符号类型的整型的值，从栈的列表中
+ *
+ *@ap： 栈的指针
+ *@lfag：ap指向的数值的大小
+ */
+static long long getint(va_list *ap, int lflag) 
+{
+	if (lflag >= 2) {
+		return va_arg(*ap, long long);
+	} else if (lflag) {
+		return va_arg(*ap, long);
+	} else {
+		return va_arg(*ap, int);
+	}
+}
+
+
+/*@getuint 获得无符号类型的整型的值，从栈的列表中
+ *
+ *@ap： 栈的指针
+ *@lfag：ap指向的数值的大小
+ */
+static long long getuint(va_list *ap, int lflag) 
+{
+	if (lflag >= 2) {
+		return va_arg(*ap, unsigned long long);
+	} else if (lflag) {
+		return va_arg(*ap, unsigned long);
+	} else {
+		return va_arg(*ap, unsigned int);
+	}
+}
+
+
 
 /*@vprintf：格式化输出函数调用的函数式
  *@fmt：格式化字符串
@@ -57,13 +91,110 @@ int puts(const char *str)
 int vprintk(const char *fmt, va_list ap)
 {
 	int ch;
-	while (true) }{
+	int count;
+	int base; 	//输出的机制
+	char padc; 	
+	unsigned long long num; 	//表示要打印的
+	int width, lfag, altflag;
+	int precison;
+	while (true) {
 		while ((ch = *(unsigned char *)fmt ++) != '%') {
 			if (ch == '\0') {
 				return ;
 			}
+			count++;
 			putchar(ch);
+		}
+		padc = ' ';
+		width = precison = -1;
+		lfag = altflag = 0;
+		while (true) {
+			switch(ch = *(unsigned char *)fmt ++) {
+			case '-':
+				padc = '-';
+				break;
+			case '0':
+				padc = '0';
+				break;
+			case '*':
+				precison = va_arg(ap, int);
+				if (width < 0) {
+					width = precison;
+					precison = -1;
+				}
+				break;
+			case '1' ... '9':
+				for (precison = 0; ; ++fmt) {
+					precison = precison * 10 + ch - '0';
+					ch = *fmt;
+					if (ch < '0' || ch > '9') {
+						break;
+					}
+				}
+				if (width < 0) {
+					width = precison;
+					precison = -1;
+				}
+				break;
+			case '#':
+				altflag = 1;
+				break;
+			case '.':
+				if (width < 0) {
+					width = 0;
+				}
+				break;
+			//long long int
+			case 'l':
+				lfag++;
+				break;
+			//character
+			case 'c':
+				putchar(va_arg(ap, int));
+				break;
+			}
+			case 'd':
+				num = getint(&ap, lfag);
+				if ((long long)num < 0 ) {
+					putchar('-');
+					num = -(long long) num;
+				}
+				base = 10;
+				;输出函数
+				break;
+			case 'u':
+				num = getuint(&ap, lfag);
+				base = 10;
+				;输出函数
+				break;
+			case 'o':
+				num = getuint(&ap, lfag);
+				base = 8;
+				;输出函数
+				break;
+			case 'x':
+				putchar('0');
+				putchar('x');
+				num = getuint(&ap, lfag);
+				;输出函数
+				break;
+			case 'p':
+				putchar('0');
+				putchar('x');
+				num = (unsigned long long)va_arg(ap, void *);
+				base = 16;
+				;输出函数
+				break;
+			case '%':
+				putchar(ch);
+				break;
+			default:
+				putchar(ch);
+				for (fmt--; fmt[-1] != '%'; --fmt) {
+					putchar();
+				}
 
+		}
 	}
 	
 }
