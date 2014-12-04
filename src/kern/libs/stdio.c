@@ -91,7 +91,8 @@ static long long getuint(va_list *ap, int lflag)
 int vprintk(const char *fmt, va_list ap)
 {
 	int ch;
-	int count;
+	int count = 0;
+	const char *p;
 	int base; 	//输出的机制
 	char padc; 	
 	unsigned long long num; 	//表示要打印的
@@ -100,7 +101,7 @@ int vprintk(const char *fmt, va_list ap)
 	while (true) {
 		while ((ch = *(unsigned char *)fmt ++) != '%') {
 			if (ch == '\0') {
-				return ;
+				return count;
 			}
 			count++;
 			putchar(ch);
@@ -112,17 +113,17 @@ int vprintk(const char *fmt, va_list ap)
 			switch(ch = *(unsigned char *)fmt ++) {
 			case '-':
 				padc = '-';
-				break;
+				continue;
 			case '0':
 				padc = '0';
-				break;
+				continue;
 			case '*':
 				precison = va_arg(ap, int);
 				if (width < 0) {
 					width = precison;
 					precison = -1;
 				}
-				break;
+				continue;
 			case '1' ... '9':
 				for (precison = 0; ; ++fmt) {
 					precison = precison * 10 + ch - '0';
@@ -135,24 +136,34 @@ int vprintk(const char *fmt, va_list ap)
 					width = precison;
 					precison = -1;
 				}
-				break;
+				continue;
 			case '#':
 				altflag = 1;
-				break;
+				continue;
 			case '.':
 				if (width < 0) {
 					width = 0;
 				}
-				break;
+				continue;
 			//long long int
 			case 'l':
 				lfag++;
-				break;
+				continue;
 			//character
 			case 'c':
 				putchar(va_arg(ap, int));
+				count++;
 				break;
-			}
+			case 's':
+				if ((p = va_arg(ap, char *)) == NULL) {
+					p = "(NULL)";
+				}
+				if (width > 0 && padc != '-') {
+				for (width -= strnlen(p, precison); width > 0; width--) {
+					putchar(padc);
+					}
+				}
+
 			case 'd':
 				num = getint(&ap, lfag);
 				if ((long long)num < 0 ) {
@@ -161,22 +172,26 @@ int vprintk(const char *fmt, va_list ap)
 				}
 				base = 10;
 				;输出函数
+				count++;
 				break;
 			case 'u':
 				num = getuint(&ap, lfag);
 				base = 10;
 				;输出函数
+				count++;
 				break;
 			case 'o':
 				num = getuint(&ap, lfag);
 				base = 8;
 				;输出函数
+				count++;
 				break;
 			case 'x':
 				putchar('0');
 				putchar('x');
 				num = getuint(&ap, lfag);
 				;输出函数
+				count++;
 				break;
 			case 'p':
 				putchar('0');
@@ -184,16 +199,18 @@ int vprintk(const char *fmt, va_list ap)
 				num = (unsigned long long)va_arg(ap, void *);
 				base = 16;
 				;输出函数
+				count++;
 				break;
 			case '%':
 				putchar(ch);
+				count++;
 				break;
 			default:
 				putchar(ch);
-				for (fmt--; fmt[-1] != '%'; --fmt) {
-					putchar();
-				}
-
+				for (ch--; ch[-1] != '%'; --ch) {
+					putchar(ch);
+				} 
+				break;
 		}
 	}
 	

@@ -6,7 +6,7 @@
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  2014年12月03日 20时26分45秒
+ *        Created:  2014年12月03日 23时34分44秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -24,9 +24,9 @@
 
 int main(int argc, char *argv[])
 {
-	int a = 1;
-	printf("%0*x\n",10,a);
 
+	char a[10]= "asdasd";
+	printf("%-wedfdf\n%4.3s",a);
 	return EXIT_SUCCESS;
 }
 
