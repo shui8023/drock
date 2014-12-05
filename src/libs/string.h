@@ -34,6 +34,7 @@ size_t strlen(const int8_t *ptr);
  * */
 int8_t *strcpy(int8_t *dest, const int8_t *src);
 
+size_t strnlen(int8_t *dest, int32_t length);
 
 int32_t strcmp(const int8_t *s1, const int8_t *s2);
 

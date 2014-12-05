@@ -80,8 +80,17 @@ static long long getuint(va_list *ap, int lflag)
 	}
 }
 
-
-
+/*@printknum将数字解析并输出
+ *@num:将要输出的数
+ *@width：输出数字的宽度
+ *@padc：右对齐还是用0补充
+ *@base:要输出的数字的进制
+ */
+void printknum(unsigned long long num, int width, char padc, int base)
+{
+	int n = num % base;
+	int ch = num %
+}
 /*@vprintf：格式化输出函数调用的函数式
  *@fmt：格式化字符串
  *@ap指向函数的第二个参数的首地址
@@ -158,12 +167,22 @@ int vprintk(const char *fmt, va_list ap)
 				if ((p = va_arg(ap, char *)) == NULL) {
 					p = "(NULL)";
 				}
+				//右对齐用来对齐的
 				if (width > 0 && padc != '-') {
-				for (width -= strnlen(p, precison); width > 0; width--) {
-					putchar(padc);
+					for (width -= strnlen(p, precison); width > 0; width--) {
+						putchar(padc);
+					
 					}
 				}
+				for (; (ch = *p++) != '\0'&&(precison < 0 || --precison >= 0); width--) {
+					putchar(ch);
+				}
+				//左对齐的
+				for (; width > 0; --width) {
+					putchar(' ');
+				}
 
+				break;
 			case 'd':
 				num = getint(&ap, lfag);
 				if ((long long)num < 0 ) {

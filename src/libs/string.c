@@ -61,6 +61,14 @@ strlen(const char  *ptr)
 	}
 }
 
+int32_t strnlen(int8_t *dest, int32_t length)
+{
+	
+	dest[length] = '\0';
+
+	return length;
+}
+
 /**
  *
  *
