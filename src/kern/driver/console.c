@@ -51,7 +51,7 @@ static void cga_init (void)
 static void cga_putc(int c)
 {
 	if (!(c & ~ 0xFF)) {
-		c != 0x700;
+		c |= 0x700;
 	}
 
 	switch (c & 0xFF) {

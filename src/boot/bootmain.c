@@ -98,9 +98,6 @@ start_main()
 	}
 
 
-	uint8_t *input = (uint8_t *)0xb8000;
-	*input++ = '-';
-	*input++ = 0x07;
 
 	((void (*)(void))(ELFHDR->e_entry & 0xFFFFFF))();	
 	
