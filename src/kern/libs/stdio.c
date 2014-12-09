@@ -18,7 +18,8 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include "console.h"
+#include <string.h>
+#include "../driver/console.h"
 
 /*@putchar:显示一个字符，默认颜色为黑底白字
  *@v， 要输出的字符
@@ -88,8 +89,17 @@ static long long getuint(va_list *ap, int lflag)
  */
 void printknum(unsigned long long num, int width, char padc, int base)
 {
-	int n = num % base;
-	int ch = num %
+	unsigned long long n = num;
+	int mod =(int) num % base;   //将num根据base进行分解输出
+	n = (int)num / base;
+	if ((int)num >= base)  {
+		printknum(n, --width, padc, base);
+	} else {
+		while (--width) {
+			putchar(padc);
+		}
+	}
+	putchar("0123456789abcdef"[mod]);
 }
 /*@vprintf：格式化输出函数调用的函数式
  *@fmt：格式化字符串
@@ -190,26 +200,27 @@ int vprintk(const char *fmt, va_list ap)
 					num = -(long long) num;
 				}
 				base = 10;
-				;输出函数
+				printknum(num, width, padc, base);
 				count++;
 				break;
 			case 'u':
 				num = getuint(&ap, lfag);
 				base = 10;
-				;输出函数
+				printknum(num, width, padc, base);
 				count++;
 				break;
 			case 'o':
 				num = getuint(&ap, lfag);
 				base = 8;
-				;输出函数
+				printknum(num, width, padc, base);
 				count++;
 				break;
 			case 'x':
 				putchar('0');
 				putchar('x');
 				num = getuint(&ap, lfag);
-				;输出函数
+				base = 16;
+				printknum(num, width, padc, base);
 				count++;
 				break;
 			case 'p':
@@ -217,7 +228,7 @@ int vprintk(const char *fmt, va_list ap)
 				putchar('x');
 				num = (unsigned long long)va_arg(ap, void *);
 				base = 16;
-				;输出函数
+				printknum(num, width, padc, base);
 				count++;
 				break;
 			case '%':
@@ -226,10 +237,11 @@ int vprintk(const char *fmt, va_list ap)
 				break;
 			default:
 				putchar(ch);
-				for (ch--; ch[-1] != '%'; --ch) {
-					putchar(ch);
-				} 
+//				for (ch--; ch[-1] != '%'; --ch) {
+//					putchar(ch);
+//				} 
 				break;
+			}
 		}
 	}
 	
@@ -245,5 +257,5 @@ int printk(const char *fmt, ...)
 	va_start(ap, fmt);
 	return vprintk(fmt, ap);
 }
-void snprintk(char *str, size_t size, const char *fmt, ...);
-void vsnprintk(char *str, size_t, const char *fmt, va_list ap);
+//void snprintk(char *str, size_t size, const char *fmt, ...);
+//void vsnprintk(char *str, size_t, const char *fmt, va_list ap);
