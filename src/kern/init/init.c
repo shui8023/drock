@@ -16,17 +16,13 @@
  * =====================================================================================
  */
 
+#include <stdio.h>
+#include "../driver/console.h"
 int start(void)
 {
-	unsigned char * input = (unsigned char *)0xb8000;
-	
-	int i = 0;
-	for (i = 0; i < 800 * 25; i += 2) {
-		input[i] = ' ';
-		input[i+1] = 0x70;
-	}
-
+	console_init();
+	char a = 'c';
+	printk("asd");
 	while (1);
-
 	return 0;
 }
