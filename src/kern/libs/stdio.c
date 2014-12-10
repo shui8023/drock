@@ -170,7 +170,7 @@ int vprintk(const char *fmt, va_list ap)
 				continue;
 			//character
 			case 'c':
-				putchar(va_arg(ap, int));
+				putchar(va_arg(ap, char));
 				count++;
 				break;
 			case 's':
@@ -242,6 +242,7 @@ int vprintk(const char *fmt, va_list ap)
 //				} 
 				break;
 			}
+			break;
 		}
 	}
 	

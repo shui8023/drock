@@ -39,13 +39,13 @@ static void cga_init (void)
 	int i = 0;
 
 	for (i = 0; i < CRT_SIZE; ++i) {
-		crt_buff[i] = 0x700|' ';
+		crt_buff[i] = 0x700 | ' ';
 	}
 
 	outb(CGA_BASE, 14); 			//告诉VGA，我们要设置光标的高字节
 	outb(CGA_BASE + 1, crt_pos >> 8); 	//发送高8位
 	outb(CGA_BASE, 15); 			//告诉VGA，我们要设置光标的低字节
-	outb(CGA_BASE, crt_pos); 		//发送低8位
+	outb(CGA_BASE + 1, crt_pos); 		//发送低8位
 }
 
 static void cga_putc(int c)
@@ -81,15 +81,16 @@ static void cga_putc(int c)
 		}
 
 		for (i = (CRT_ROWS - 1) * CRT_COLS; i <= CRT_COLS * CRT_COLS; ++i) {
-			crt_buff[i] = 0x700|' ';
+			crt_buff[i] = 0x700 |' ';
 		}
 		crt_pos -= CRT_COLS;
 	}
 
-	outb(CGA_BASE, 14);
-	outb(CGA_BASE + 1, crt_pos >> 8);
-	outb(CGA_BASE, 15);
-	outb(CGA_BASE, crt_pos);
+	outb(CGA_BASE, 14); 			//告诉VGA，我们要设置光标的高字节
+	outb(CGA_BASE + 1, crt_pos >> 8); 	//发送高8位
+	outb(CGA_BASE, 15); 			//告诉VGA，我们要设置光标的低字节
+	outb(CGA_BASE + 1, crt_pos); 		//发送低8位
+	
 }
 
 /*@console_init:进行输入输出的初始化

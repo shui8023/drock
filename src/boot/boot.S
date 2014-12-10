@@ -1,21 +1,21 @@
 #
 # From the real mode to the protected mode 
 
-#include "asm.h"
-
-.set PROT_MODE_CSEG,        0x8                     # kernel code segment selector
+#include "asm.h" 				
+							# 主要包含了全局段描述符表
+.set PROT_MODE_CSEG,        0x8                     	# kernel code segment selector
 .globl start
 start:
 .code16
-	cli 			#disable the interrupt
-	cld
-	xorw %ax, %ax
-	movw %ax, %es
-	movw %ax, %ds
-	movw %ax, %ss
+	cli 						# disable the interrupt
+	cld 						# 消除符号位标志
+	xorw %ax, %ax 					# 将ax置为0
+	movw %ax, %es 					# 将es段地址设为0，主要是现在是实模式只能访问到1M的内存空间
+	movw %ax, %ds 					# 将ds段地址设为0
+	movw %ax, %ss 					# 将栈的基地址设为0
 
 
-	inb $0x92, %al
+	inb $0x92, %al 					#
 	or  2, %al
 	outb  %al, $0x92                                                                              
 	

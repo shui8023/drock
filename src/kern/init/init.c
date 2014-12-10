@@ -21,8 +21,9 @@
 int start(void)
 {
 	console_init();
-	char a = 'c';
-	printk("asd");
+	char s = 'a';
+	printk("xiyoulinux\tlinux\n%c", s);
+	printk("\t");
 	while (1);
 	return 0;
 }
