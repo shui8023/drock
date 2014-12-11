@@ -14,8 +14,8 @@ S_OBJECTS=$(patsubst %.S, %.o, $(filter-out ./boot/*.S,$(wildcard *.S)))
 
 T_SOURCES=$(filter ./tool/*.c, $(wildcard *.c))
 
-MK_BOOT_FILE=$(shell mkdir ./bin)
-MK_OBJ_FILE=$(shell mkdir ./obj)
+MK_BOOT_FILE=$(shell if [ ! -d  "./bin/" ];                 \
+			then mkdir "./bin";  fi)  	
 
 CC=gcc
 
@@ -25,19 +25,18 @@ LD=ld
 
 RM=rm
 
-MKDIR=mkdir
 
 QEMU=qemu-system-i386
 
 OBJ=objcopy 
 
-CC_FLAGE= -c  -nostdinc -nostdlib -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs  -O2
+CC_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs  -O2
 
 #
 #必须把第一个boot.S的文本段放在前面
-LD_BOOT_FLAGS= -m elf_i386 -nostdinc -N -e start -Ttext 0x7C00 
+LD_BOOT_FLAGS= -melf_i386 -nostdinc -N -e start -Ttext 0x7C00 
 
-LD_KERNEL_FLAGS= -nostdinc   -m elf_i386  -T ./tool/kernel.lds
+LD_KERNEL_FLAGS= -nostdlib   -melf_i386  -T ./tool/kernel.ld
 
 OBJ_FLAGS= -S -O binary  bin/bootblock.o  bin/bootblock.out
 

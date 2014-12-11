@@ -26,8 +26,8 @@
 #define CRT_COLS 		80
 #define CRT_SIZE 		(CRT_ROWS * CRT_COLS)
 
-static uint16_t *crt_buff;
-static uint16_t crt_pos;
+static int16_t *crt_buff;
+static int16_t crt_pos;
 
 /*@cga_init:输出端口的初始化
  *
@@ -50,6 +50,7 @@ static void cga_init (void)
 
 static void cga_putc(int c)
 {
+	crt_buff = (uint16_t *)CGA_BUFFER;
 	if (!(c & ~ 0xFF)) {
 		c |= 0x700;
 	}
