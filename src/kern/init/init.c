@@ -16,14 +16,17 @@
  * =====================================================================================
  */
 
-#include <stdio.h>
+#include "stdio.h"
 #include "../driver/console.h"
 int start(void)
 {
 	console_init();
+	int a = 100;
+	char d = 'c';
 	char c = 'a';
 	printk("xiyoulinux%c", c);
-	printk("\t");
+//	console_putc('\b');
+//	printk("\b");
 	while (1);
 	return 0;
 }

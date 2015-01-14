@@ -30,19 +30,20 @@ QEMU=qemu-system-i386
 
 OBJ=objcopy 
 
-CC_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs  -O2
+CC_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs
+BOOT_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs -O2
 
 #
 #必须把第一个boot.S的文本段放在前面
-LD_BOOT_FLAGS= -melf_i386 -nostdinc -N -e start -Ttext 0x7C00 
+LD_BOOT_FLAGS= -m elf_i386  -N -e start -Ttext 0x7C00 
 
-LD_KERNEL_FLAGS= -nostdlib   -melf_i386  -T ./tool/kernel.ld
+LD_KERNEL_FLAGS=   -m elf_i386  -T ./tool/kernel.lds
 
 OBJ_FLAGS= -S -O binary  bin/bootblock.o  bin/bootblock.out
 
 BOOTNAME=bootblock.o
 
-all : mkdir_file $(BC_OBJECTS) $(C_OBJECTS) $(BS_OBJECTS) $(S_OBJECTS)   ld_boot ld_kernel make_tool  obj dd
+all : mkdir_file  $(C_OBJECTS)  $(S_OBJECTS)  bootmain boot_s ld_boot ld_kernel make_tool  obj dd
 
 mkdir_file:
 	$(MK_BOOT_FILE)
@@ -52,12 +53,18 @@ mkdir_file:
 .S.o:
 	@echo $<...
 	$(CC) $(CC_FLAGE)  $< -o $@
+bootmain:
+	@echo bootmain.c
+	$(CC) ./boot/bootmain.c $(BOOT_FLAGE) -o ./boot/bootmain.o
+boot_s:
+	@echo boot/boot.S
+	$(CC) ./boot/boot.S $(BOOT_FLAGE) -o ./boot/boot.o
 ld_boot:
 	$(LD)  $(LD_BOOT_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME) 
 ld_kernel:
-	$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS) -o ./bin/drock 
+	$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS) -o ./bin/drock  -e start
 make_tool:
-	$(CC) $(C_SING) -o ./tool/sign
+	$(CC) $(C_SING) -o ./tool/sign 
 obj:
 	$(OBJ) $(OBJ_FLAGS)
 	./tool/sign  bin/bootblock.out bin/bootblock
@@ -69,7 +76,7 @@ qemu:
 	$(QEMU) -parallel stdio -hda bin/drock.img 
 debug:
 	$(QEMU) -parallel stdio -hda bin/drock.img -S  &
-	gdb -tui -x ./tool/gdbinit
+#	gdb -tui -x ./tool/gdbinit
 
 clean:
 	rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)

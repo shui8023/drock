@@ -254,9 +254,12 @@ int vprintk(const char *fmt, va_list ap)
  */
 int printk(const char *fmt, ...)
 {
-	va_list ap;
-	va_start(ap, fmt);
-	return vprintk(fmt, ap);
+	char * ap;
+//	va_list ap;
+//	va_start(ap, fmt);
+	ap = (char *)&fmt + sizeof(fmt);
+	vprintk(fmt, ap);
+	return 0;
 }
 //void snprintk(char *str, size_t size, const char *fmt, ...);
 //void vsnprintk(char *str, size_t, const char *fmt, va_list ap);

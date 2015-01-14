@@ -43,11 +43,11 @@ readsect(void *load_address, uint32_t count)
 
 	outb(0x1F7, 0x20);
 
-	
+	// 判断硬盘端口是否被占用 	
 	while ((inb(0x1F7) & 0xC0) != 0x40) {
 		;
 	}
-	
+	// 读这个段的信息	
 	insl(0x1F0, load_address, SECTSIZE / 4);
 }
 /*

@@ -1,0 +1,15 @@
+problems_1:
+	console_putc(void)函数在打印\d的时候，光标不会出现在界面上？
+solutions_1:
+	none;
+problem_2:
+	drock内核出现无法调试，gdb在运行内核的时候，直接被kill信号杀死，而不是直接运行？
+solutiions_2:
+	none;是因为在链接的时候加上了-nostdinc的参数，会出现这个问题
+problem_3:
+	bootloader中ljmp的问题，用objdump反汇编会出现数值错误，是因为objdump把它翻译成了32位代码，其实是16的代码，数据
+为2个字节，而不是四个字节.
+problem_4:
+	内核在调试的时候，有些变量在ELF文件并不存在，调试不出结果。
+solutions_4:
+	因为在编译内核的时候加上的-O2优化参数，在优化的时候，可能是将变量给优化掉了。

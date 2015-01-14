@@ -7,10 +7,13 @@ SECTIONS {
 		*(.text)
 		. = ALIGN(4096); 
 	}
-
+	.rodata : {
+		*(.rodata)
+		*(.rodata.*)
+		. = ALIGN(4096);
+	}
 	.data : {
 		*(.data)
-		*(.rodata)
 		. = ALIGN(4096); 
 	}
 	.bss : {

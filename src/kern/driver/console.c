@@ -35,7 +35,7 @@ static int16_t crt_pos;
  */
 static void cga_init (void)
 {
-	crt_buff = (uint16_t *)CGA_BUFFER;
+	crt_buff = (int16_t *)CGA_BUFFER;
 	int i = 0;
 
 	for (i = 0; i < CRT_SIZE; ++i) {
@@ -50,7 +50,7 @@ static void cga_init (void)
 
 static void cga_putc(int c)
 {
-	crt_buff = (uint16_t *)CGA_BUFFER;
+	crt_buff = (int16_t *)CGA_BUFFER;
 	if (!(c & ~ 0xFF)) {
 		c |= 0x700;
 	}
