@@ -50,7 +50,6 @@ static void cga_init (void)
 
 static void cga_putc(int c)
 {
-	crt_buff = (int16_t *)CGA_BUFFER;
 	if (!(c & ~ 0xFF)) {
 		c |= 0x700;
 	}

@@ -23,7 +23,7 @@
 
 #define va_list 	char *
 #define va_start(ap, list) 	(ap = (va_list)&list + sizeof(list)) //求取第二个参数的首地址(从左到右)
-#define va_arg(ap, type) 	(*(type *)(ap += sizeof(type)) - sizeof(type)) //将ap指向下一个参数的首地址
+#define va_arg(ap, type) 	(*(type *)((ap += sizeof(type)) - sizeof(type))) //将ap指向下一个参数的首地址
 #define va_end(ap) 		(ap = (va_list)NULL)
 #endif //STDARG_H
 

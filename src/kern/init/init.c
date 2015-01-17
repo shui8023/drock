@@ -24,9 +24,7 @@ int start(void)
 	int a = 100;
 	char d = 'c';
 	char c = 'a';
-	printk("xiyoulinux%c", c);
-//	console_putc('\b');
-//	printk("\b");
+	printk("xiyoulinux%c%d", c, a);
 	while (1);
 	return 0;
 }

@@ -254,10 +254,8 @@ int vprintk(const char *fmt, va_list ap)
  */
 int printk(const char *fmt, ...)
 {
-	char * ap;
-//	va_list ap;
-//	va_start(ap, fmt);
-	ap = (char *)&fmt + sizeof(fmt);
+	va_list ap;
+	va_start(ap, fmt);
 	vprintk(fmt, ap);
 	return 0;
 }
