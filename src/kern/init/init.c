@@ -21,10 +21,10 @@
 int start(void)
 {
 	console_init();
-	int a = 100;
 	char d = 'c';
 	char c = 'a';
-	printk("xiyoulinux%c%d", c, a);
+	int a = 100;
+	printk("xiyoulinux%10d%c", a, c);
 	while (1);
 	return 0;
 }

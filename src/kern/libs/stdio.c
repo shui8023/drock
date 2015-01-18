@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../driver/console.h"
-
+#include <x86.h>
 /*@putchar:显示一个字符，默认颜色为黑底白字
  *@v， 要输出的字符
  *
@@ -90,12 +90,14 @@ static long long getuint(va_list *ap, int lflag)
 void printknum(unsigned long long num, int width, char padc, int base)
 {
 	unsigned long long n = num;
-	int mod =(int) num % base;   //将num根据base进行分解输出
-	n = (int)num / base;
-	if ((int)num >= base)  {
-		printknum(n, --width, padc, base);
+	
+
+	unsigned mod = do_div(n, base);
+
+	if (num >= base) {
+		printknum(n, width - 1, padc, base);
 	} else {
-		while (--width) {
+		while (--width > 0) {
 			putchar(padc);
 		}
 	}
