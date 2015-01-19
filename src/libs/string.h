@@ -26,17 +26,17 @@
  *字符串长度，字符串以'\0'结尾
  *
  * */
-size_t strlen(const int8_t *ptr);
+size_t strlen(const char *ptr);
 
 /**
  *
  *
  * */
-int8_t *strcpy(int8_t *dest, const int8_t *src);
+char *strcpy(char *dest, const char *src);
 
-size_t strnlen(int8_t *dest, int32_t length);
+size_t strnlen(char *dest, int length);
 
-int32_t strcmp(const int8_t *s1, const int8_t *s2);
+int strcmp(const char *s1, const char *s2);
 
 
 void *memset(void *s, int c, size_t n);

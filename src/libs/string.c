@@ -18,8 +18,7 @@
 #include <defs.h>
 #include <string.h>
 
-size_t 
-strlen(const char  *ptr)
+size_t strlen(const char  *ptr)
 {
 	const int8_t *char_ptr;
 	  uint64_t longword_ptr;
@@ -60,20 +59,17 @@ strlen(const char  *ptr)
 	}
 }
 
-size_t strnlen(int8_t *dest, int32_t length)
+size_t strnlen(const char *dest, size_t maxlen)
 {
-	
-	dest[length] = '\0';
 
-	return length;
 }
 
 /**
  *
  *
  * */
-int8_t *
-strcpy(int8_t *dest, const int8_t *src)
+
+int *strcpy(char *dest, const char *src)
 {
 	int8_t *s = dest;
 
@@ -88,8 +84,7 @@ strcpy(int8_t *dest, const int8_t *src)
  *返回1,s1>s2
  *返回0,s1<s2
  */
-int32_t 
-strcmp(const int8_t *s1, const int8_t *s2)
+int strcmp(const char *s1, const char *s2)
 {
 	for ( ; *s1 == *s2; s1++, s2++) {
 		return 0;
@@ -99,8 +94,7 @@ strcmp(const int8_t *s1, const int8_t *s2)
 }
 
 
-void *
-memset(void *s, int c, size_t n)
+void *memset(void *s, int c, size_t n)
 {
 	const uint8_t uc = c;
 	unsigned char *us = s;
@@ -113,8 +107,7 @@ memset(void *s, int c, size_t n)
 }
 
 
-void 
-bzero(void *s, size_t n)
+void bzero(void *s, size_t n)
 {
 	memset(s, 0, n);
 }
