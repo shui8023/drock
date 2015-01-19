@@ -59,9 +59,12 @@ size_t strlen(const char  *ptr)
 	}
 }
 
+
 size_t strnlen(const char *dest, size_t maxlen)
 {
+	int temp = strlen(dest);
 
+	return (temp >= maxlen ? maxlen:temp);
 }
 
 /**
@@ -69,7 +72,7 @@ size_t strnlen(const char *dest, size_t maxlen)
  *
  * */
 
-int *strcpy(char *dest, const char *src)
+char *strcpy(char *dest, const char *src)
 {
 	int8_t *s = dest;
 

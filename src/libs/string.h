@@ -34,7 +34,7 @@ size_t strlen(const char *ptr);
  * */
 char *strcpy(char *dest, const char *src);
 
-size_t strnlen(char *dest, int length);
+size_t strnlen(const char *dest, size_t length);
 
 int strcmp(const char *s1, const char *s2);
 
