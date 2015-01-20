@@ -76,7 +76,7 @@ qemu:
 	$(QEMU) -parallel stdio -hda bin/drock.img 
 debug:
 	$(QEMU) -parallel stdio -hda bin/drock.img -S  &
-	gdb -tui -x ./tool/gdbinit
+#	gdb -tui -x ./tool/gdbinit
 
 clean:
 	rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)

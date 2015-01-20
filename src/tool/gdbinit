@@ -1,4 +1,4 @@
+target remote localhost:1234
 file ./bin/drock
-target remote :1234
 break start
 continue

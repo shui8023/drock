@@ -17,14 +17,17 @@
  */
 
 #include "stdio.h"
+#include <string.h>
 #include "../driver/console.h"
 int start(void)
 {
 	console_init();
 	char d = 'c';
 	char c = 'a';
-	int a = 100;
-	printk("xiyoulinux%10d%c", a, c);
+	char *s = "hello word!";
+	int a;
+	a = strlen(s);
+	printk("xiyoulinux%10d\t%c\b", a, c);
 	while (1);
 	return 0;
 }
