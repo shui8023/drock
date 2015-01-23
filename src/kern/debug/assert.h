@@ -3,7 +3,7 @@
  *
  *       Filename:  assert.h
  *
- *    Description:  
+ *    Description: 断言的文件
  *
  *        Version:  1.0
  *        Created:  2015年01月22日 22时39分00秒
@@ -20,6 +20,7 @@
 #ifndef ASSERT_H
 #define ASSERT_H
 
+
 #define assert(x) 		\
 	do { 			\
 		if (!(x)) { 	\
@@ -28,6 +29,7 @@
 	} while (0);
 
 
+//静态断言，编译的时候检查,在编译的时候如果x是false，则会出现编译错误
 #define static_assert(x) 	\
 	switch (x) {case 0: case (x): ;}
 		

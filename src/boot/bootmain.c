@@ -15,9 +15,9 @@
  *
  * =====================================================================================
  */
-#include "x86.h"
-#include "elf.h"
-#include "defs.h"
+#include <x86.h>
+#include <elf.h>
+#include <defs.h>
 
 
 #define SECTSIZE 512

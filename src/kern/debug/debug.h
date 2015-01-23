@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  init.c
+ *       Filename:  debug.h
  *
- *    Description:  start the drock kernel
+ *    Description:  打印函数栈的信息，kernel的基本的信息
  *
  *        Version:  1.0
- *        Created:  2014年11月01日 21时54分25秒
+ *        Created:  2015年01月23日 09时57分54秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,17 +16,8 @@
  * =====================================================================================
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <console.h>
-int start(void)
-{
-	console_init();
-	char c = 'a';
-	char *s = "hello word!";
-	int a;
-	a = strlen(s);
-	printk("xiyoulinux%10d\t%c\b", a, c);
-	while (1);
-	return 0;
-}
+#ifndef DEBUG_H
+#define DEBUG_H
+
+
+#endif 

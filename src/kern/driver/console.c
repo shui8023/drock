@@ -16,9 +16,9 @@
  * =====================================================================================
  */
 
-#include "console.h"
-#include "defs.h"
-#include "x86.h"
+#include <console.h>
+#include <defs.h>
+#include <x86.h>
 
 #define CGA_BUFFER 		0xb8000
 #define CGA_BASE 		0x3D4

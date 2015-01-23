@@ -25,12 +25,17 @@ LD=ld
 
 RM=rm
 
-
+V := @
 QEMU=qemu-system-i386
 
 OBJ=objcopy 
+KINCLUDE += kern/debug/ \
+	    kern/driver/  \
+	    kern/trap/    \
+	    kern/mm/ 	
 
-CC_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs
+C_FLAGS += $(addprefix -I , $(KINCLUDE))	 
+CC_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 $(C_FLAGS) -I libs
 BOOT_FLAGE= -c -ffreestanding  -nostdinc  -fno-builtin -fno-stack-protector -gstabs+ -Wall -ggdb  -m32 -I ./libs -O2
 
 #
@@ -48,35 +53,40 @@ all : mkdir_file  $(C_OBJECTS)  $(S_OBJECTS)  bootmain boot_s ld_boot ld_kernel 
 mkdir_file:
 	$(MK_BOOT_FILE)
 .c.o:
-	@echo $<...
-	$(CC) $(CC_FLAGE)  $< -o $@
+	@echo + cc  $<...
+	$(V)$(CC) $(CC_FLAGE)  $< -o $@
 .S.o:
-	@echo $<...
-	$(CC) $(CC_FLAGE)  $< -o $@
+	@echo + cc $<...
+	$(V)$(CC) $(CC_FLAGE)  $< -o $@
 bootmain:
-	@echo bootmain.c
-	$(CC) ./boot/bootmain.c $(BOOT_FLAGE) -o ./boot/bootmain.o
+	@echo + cc bootmain.c...
+	$(V)$(CC) ./boot/bootmain.c $(BOOT_FLAGE) -o ./boot/bootmain.o
 boot_s:
-	@echo boot/boot.S
-	$(CC) ./boot/boot.S $(BOOT_FLAGE) -o ./boot/boot.o
+	@echo + cc boot/boot.S...
+	$(V)$(CC) ./boot/boot.S $(BOOT_FLAGE) -o ./boot/boot.o
 ld_boot:
-	$(LD)  $(LD_BOOT_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME) 
+	@echo + ld bootblock...
+	$(V)$(LD)  $(LD_BOOT_FLAGS)  $(BS_OBJECTS) $(BC_OBJECTS) -o  ./bin/$(BOOTNAME) 
 ld_kernel:
-	$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS) -o ./bin/drock  -e start
+	@echo + ld kernel...
+	$(V)$(LD)  $(LD_KERNEL_FLAGS) $(C_OBJECTS) $(S_OBJECTS) -o ./bin/drock  -e start
 make_tool:
-	$(CC) $(C_SING) -o ./tool/sign 
+	$(V)$(CC) $(C_SING) -o ./tool/sign 
 obj:
-	$(OBJ) $(OBJ_FLAGS)
+	$(V)$(OBJ) $(OBJ_FLAGS)
 	./tool/sign  bin/bootblock.out bin/bootblock
 dd:
-	dd if=/dev/zero of=./bin/drock.img count=10000
-	dd if=./bin/bootblock of=./bin/drock.img conv=notrunc
-	dd if=./bin/drock  of=./bin/drock.img seek=1 conv=notrunc
+	$(V)dd if=/dev/zero of=./bin/drock.img count=10000
+	$(V)dd if=./bin/bootblock of=./bin/drock.img conv=notrunc
+	$(V)dd if=./bin/drock  of=./bin/drock.img seek=1 conv=notrunc
+
+.PHONY: qemu debug clean
 qemu:
-	$(QEMU) -parallel stdio -hda bin/drock.img 
+	$(V)$(QEMU) -serial  stdio -hda bin/drock.img
 debug:
 	$(QEMU) -parallel stdio -hda bin/drock.img -S  &
 #	gdb -tui -x ./tool/gdbinit
 
 clean:
-	rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)
+	@echo rm -rf
+	$(V)rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)

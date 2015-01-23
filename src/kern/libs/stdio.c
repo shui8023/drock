@@ -19,7 +19,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-#include "../driver/console.h"
+#include <console.h>
 #include <x86.h>
 /*@putchar:显示一个字符，默认颜色为黑底白字
  *@v， 要输出的字符
@@ -228,7 +228,7 @@ int vprintk(const char *fmt, va_list ap)
 			case 'p':
 				putchar('0');
 				putchar('x');
-				num = (unsigned long long)va_arg(ap, void *);
+				num = (unsigned long long)(unsigned int )va_arg(ap, void *);
 				base = 16;
 				printknum(num, width, padc, base);
 				count++;
