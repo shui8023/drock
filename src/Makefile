@@ -26,7 +26,7 @@ LD=ld
 RM=rm
 
 V := @
-QEMU=qemu-system-i386
+QEMU = qemu-system-i386
 
 OBJ=objcopy 
 KINCLUDE += kern/debug/ \
