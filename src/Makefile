@@ -88,5 +88,5 @@ debug:
 #	gdb -tui -x ./tool/gdbinit
 
 clean:
-	@echo rm -rf
+	@echo rm -rf obj bin
 	$(V)rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)

@@ -18,10 +18,16 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <console.h>
+
 int start(void)
 {
+	extern char edata[], end[];
+	memset(edata, 0, end-edata);
+	int i = 0;
 	console_init();
+	assert(i);
 	char c = 'a';
 	char *s = "hello word!";
 	int a;

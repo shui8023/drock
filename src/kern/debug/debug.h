@@ -16,8 +16,13 @@
  * =====================================================================================
  */
 
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef __KERN_DEBUG_DEBUG_H__
+#define __KERN_DEBUG_DEBUG_H__
+
+#include <defs.h>
+
+void print_kerninfo(void);
+void print_stackframe(void);
 
 
-#endif 
+#endif  /* __KERN_DEBUG_DEBUG_H__ */

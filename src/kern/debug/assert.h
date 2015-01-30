@@ -17,9 +17,14 @@
  */
 
 
-#ifndef ASSERT_H
-#define ASSERT_H
+#ifndef __KERN_DEBUG_ASSERT_H__
+#define __KERN_DEBUG_ASSERT_H__
 
+
+void __painc(const char *filename, int line, const char *fm, ...);
+
+#define panic(...) 		\
+	__panic(__FILE__, __LINE__, __VA_ARGS__)
 
 #define assert(x) 		\
 	do { 			\
@@ -33,4 +38,4 @@
 #define static_assert(x) 	\
 	switch (x) {case 0: case (x): ;}
 		
-#endif //ASSERT_H
+#endif /*__KERN_DEBUG_ASSERT_H__ */

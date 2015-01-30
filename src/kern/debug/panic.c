@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  debug.c
+ *       Filename:  panic.c
  *
- *    Description:  打印kernel函数栈的信息和kernel的基本信息
+ *    Description:  打印出错误的处理函数
  *
  *        Version:  1.0
- *        Created:  2015年01月25日 12时46分23秒
+ *        Created:  2015年01月27日 19时46分34秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,20 +16,18 @@
  * =====================================================================================
  */
 
-#include <debug.h>
 #include <assert.h>
-#include <elf.h>
+#include <stdio.h>
+#include <defs.h>
+#include <stdarg.h>
 
 
-/*function：打印内核的基本信息
- *
- *
- */
-void print_kerninfo(void)
+void __panic(const char *filename, int line, const char *fmt, ...) 
 {
-
-}
-void print_stackframe(void)
-{
-
+	va_list ap;
+	va_start(ap, fmt);
+	printk("kernel panic %s:%d:\n", filename, line);
+	vprintk(fmt, ap);
+	printk("\n");
+	va_end(ap);
 }
