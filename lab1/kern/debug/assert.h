@@ -26,6 +26,13 @@ void __painc(const char *filename, int line, const char *fm, ...);
 #define panic(...) 		\
 	__panic(__FILE__, __LINE__, __VA_ARGS__)
 
+/*使用do{}while(0);的好处
+ *1：有时候只是为了代码分块，比{}更直观
+ *2：当你代码执行到一半的，想跳过下一半的时候，当你处在do{}while（0），则可以用break达到这个目的
+ *3:变形的goto语句
+ *4：可以兼容各种编译器
+ *5:为了宏展开的时候不会出错。
+ */
 #define assert(x) 		\
 	do { 			\
 		if (!(x)) { 	\
