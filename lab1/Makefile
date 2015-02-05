@@ -7,10 +7,11 @@ BS_OBJECTS=$(patsubst %.S, %.o, $(wildcard ./boot/*.S))
 #除去了sign.c这个文件
 C_SING=$(wildcard ./tool/*.c)
 C_SOURCES=$(filter-out $(C_SING), $(shell find -name *.c))
+S_SOURCES=$(shell find -name *.S)
 #除去了./boot/bootmain.c这个文件的.o格式,链接脚本不一样
 C_OBJECTS=$(patsubst %.c, %.o, $(filter-out ./boot/bootmain.c,$(C_SOURCES)))
 
-S_OBJECTS=$(patsubst %.S, %.o, $(filter-out ./boot/*.S,$(wildcard *.S)))
+S_OBJECTS=$(patsubst %.S, %.o, $(filter-out ./boot/boot.S,$(S_SOURCES)))
 
 T_SOURCES=$(filter ./tool/*.c, $(wildcard *.c))
 
@@ -84,9 +85,9 @@ dd:
 qemu:
 	$(V)$(QEMU) -parallel  stdio -hda bin/drock.img -serial null
 debug:
-	$(QEMU) -parallel stdio -hda bin/drock.img -S  &
-#	gdb -tui -x ./tool/gdbinit
+	$(QEMU) -parallel stdio -hda bin/drock.img -S -s &
+#	cgdb -x ./tool/gdbinit
 
 clean:
 	@echo rm -rf obj bin
-	$(V)rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS)
+	$(V)rm -rf ./bin  $(BS_OBJECTS) $(BC_OBJECTS) $(C_OBJECTS) $(S_OBJECTS)
