@@ -38,7 +38,6 @@ struct idt_ptr {
 
 /* 要保存的寄存器的值*/
 struct pt_regs {
-	uint32_t ds;  		//数据段描述符
 	uint32_t edi; 		//pusha 从edi到eax压栈
 	uint32_t esi;
 	uint32_t ebp;
@@ -47,6 +46,10 @@ struct pt_regs {
 	uint32_t edx;
 	uint32_t ecx;
 	uint32_t eax;
+	uint32_t gs;
+	uint32_t fs;
+	uint32_t es;
+	uint32_t ds;
 	uint32_t int_nu; 		//中断号
 	uint32_t err_code; 	//错误代码，由错误代码的中断会压入错误代码到栈中
 	uint32_t eip; 		//ip, cs. flags 由系统自动压栈
@@ -54,7 +57,7 @@ struct pt_regs {
 	uint32_t eflags;
 	uint32_t useresp; 
 	uint32_t ss;
-};
+} __attribute__((packed));
 
 /* 定义中断处理函数指针 */
 typedef void (*interrupt_handler)(struct pt_regs *regs);
@@ -65,6 +68,7 @@ void register_interrupt_handler(uint32_t n, interrupt_handler handler);
 /* 调用中断处理函数 */
 void isr_handler(struct pt_regs *regs);
 
+void init_idt(void);
 /* 中断处理函数 */
 void isr0();
 void isr1();

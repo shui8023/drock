@@ -21,14 +21,17 @@
 #include <assert.h>
 #include <console.h>
 #include <debug.h>
+#include <idt.h>
 int start(void)
 {
 	/* 必须把数据段初始化为0 */
 	extern char end[], edata[];
 	memset(edata, 0, end-edata);
-
+	init_idt();
 	console_init();
 	print_kerninfo();
+
+	asm volatile ("int $0x03");
 	while (1);
 	return 0;
 }

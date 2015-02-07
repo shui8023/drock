@@ -6,8 +6,8 @@
 .GLOBAL isr\args
 isr\args:
 	cli
-	push 0
-	push \args
+	pushl $0
+	pushl \args
 	jmp isr_save_register
 .endm
 
@@ -15,7 +15,7 @@ isr\args:
 .GLOBAL isr\args
 isr\args:
 	cli
-	push \args
+	pushl \args
 	jmp isr_save_register
 .endm
 ISR_NOERRCODE		0
@@ -26,16 +26,16 @@ ISR_NOERRCODE		4
 ISR_NOERRCODE		5
 ISR_NOERRCODE		6
 ISR_NOERRCODE		7
-ISR_NOERRCODE		8
+ISR_ERRCODE		8
 ISR_NOERRCODE		9
-ISR_NOERRCODE		10
-ISR_NOERRCODE		11
-ISR_NOERRCODE		12
-ISR_NOERRCODE		13
-ISR_NOERRCODE		14
+ISR_ERRCODE		10
+ISR_ERRCODE		11
+ISR_ERRCODE		12
+ISR_ERRCODE		13
+ISR_ERRCODE		14
 ISR_NOERRCODE		15
 ISR_NOERRCODE		16
-ISR_NOERRCODE		17
+ISR_ERRCODE		17
 ISR_NOERRCODE		18
 ISR_NOERRCODE		19
 ISR_NOERRCODE		20
@@ -278,30 +278,32 @@ ISR_NOERRCODE		255
 .GLOBAL isr_save_register
 .EXTERN isr_handler
 isr_save_register:
-	pusha
-	mov %ds, %ax
-	push %eax
+	pushl %ds
+	pushl %es
+	pushl %fs
+	pushl %gs
+	pushal
 	
-	mov $0x10, %ax
+	mov $0x10, %eax
 	mov %ax, %ds
 	mov %ax, %es
-	mov %ax, %gs
-	mov %ax, %fs
-	mov %ax, %ss
 	
-	push %esp
+	pushl %esp
 	call isr_handler
 	
-	add %esp, 4
-	pop %ebx
-	mov %bx, %ds
-	mov %bx, %es
-	mov %bx, %gs
-	mov %bx, %fs
-	mov %bx, %ss
-	
-	popa
-	add %esp, 8
-	
+	popl %esp
+	popal
+
+	popl %gs
+	popl %fs
+	popl %es
+	popl %ds
+
+	addl $0x8, %esp
 	iret
-.end
+
+.GLOBAL idt_flush
+idt_flush:
+	mov  4(%esp), %eax
+	lidt (%eax)
+	ret
