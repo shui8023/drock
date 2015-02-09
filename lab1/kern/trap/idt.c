@@ -41,8 +41,12 @@ void register_interrupt_handler(uint32_t n, interrupt_handler handler)
 	interrupt_handlers[n] = handler;
 }
 
+void irq_handler(struct pt_regs *regs) 
+{
+	
+}
 /* 中断处理函数 */
-void isr_handler(struct pt_regs * regs)
+void isr_handler(struct pt_regs *regs)
 {
 	
 	printk("undefine interrput number:%d\n", regs->int_nu);
