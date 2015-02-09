@@ -31,7 +31,7 @@ int start(void)
 	console_init();
 	print_kerninfo();
 
-	asm volatile ("int $0x03");
+	asm volatile ("int $3");
 	while (1);
 	return 0;
 }

@@ -28,17 +28,24 @@ struct idt_entry idt_table[256];
 struct idt_ptr idt_ptrs;
 
 /* 中断处理函数的中间部分 */
-interrupt_handler interrupt_handlers[256];
+interrupt_handler interrupt_handlers[256] = {0};
 
 /* 加载IDT到寄存器IDTR中 */
 extern void idt_flush(uint32_t ptr);
 
 static void set_interrupt_gate(uint8_t , uint32_t, uint16_t, uint8_t);
 
+/* 注册一个中断处理函数 */
+void register_interrupt_handler(uint32_t n, interrupt_handler handler)
+{
+	interrupt_handlers[n] = handler;
+}
+
 /* 中断处理函数 */
 void isr_handler(struct pt_regs * regs)
 {
-	printk("interrput number:%d\n", regs->int_nu);
+	
+	printk("undefine interrput number:%d\n", regs->int_nu);
 
 }
 
@@ -55,7 +62,6 @@ static void set_interrupt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t
 /* 初始化中断处理 */
 void init_idt(void)
 {
-	bzero(interrupt_handlers, sizeof(interrupt_handler)*256);
 	
 	idt_ptrs.limit = sizeof(struct idt_entry) * 256 - 1;
 	idt_ptrs.base = (uint32_t)idt_table; 

@@ -6,8 +6,8 @@
 .GLOBAL isr\args
 isr\args:
 	cli
-	pushl $0
-	pushl \args
+	push  $0
+	push  $\args
 	jmp isr_save_register
 .endm
 
@@ -15,7 +15,7 @@ isr\args:
 .GLOBAL isr\args
 isr\args:
 	cli
-	pushl \args
+	push $\args
 	jmp isr_save_register
 .endm
 ISR_NOERRCODE		0
