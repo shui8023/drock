@@ -210,12 +210,41 @@ static uint8_t *charcode[4] = {
 };
 
 
- 
+#define CONSBUFSIZE 512
+/*
+ *定义键盘缓冲区，用于存贮从端口或者键盘的数据 
+ */
+static struct {
+	uint8_t buf[CONSBUFSIZE];
+	uint32_t rpos;
+	uint32_t wpos;
+}cons;
+
+/* 用于存贮从端口读取的数据 */
+static void cons_intr(int (*proc)(void)) 
+{
+	int c;
+	while (c = (*proc)() != -1) {
+		if (c != 0) {
+			cons.buf[cons.wpos++] = c;
+			if (cons.wpos == CONSBUFSIZE) {
+				cons.wpos = 0;
+			}
+		}
+	}
+}
+
+static int port_proc_data(void)
+{
+	if ()
+}
 void init_input()
 {
 	register_interrupt_handler(IRQ1, console_getc);
 }
-void console_getc(struct pt_regs * regs) 
+
+
+static void console_getc(struct pt_regs *regs) 
 {
 	
 }
