@@ -20,6 +20,10 @@
 #include <idt.h>
 #include <stdio.h>
 #include <string.h>
+#include <x86.h>
+
+#define IRQ_IO1 0x20
+#define IRQ_IO2 0xA1
 
 /* 定义中断处理函数表 */
 struct idt_entry idt_table[256]; 
@@ -43,7 +47,14 @@ void register_interrupt_handler(uint32_t n, interrupt_handler handler)
 
 void irq_handler(struct pt_regs *regs) 
 {
-	
+	if (regs->int_nu >= 40) {
+		outb(IRQ_IO2, 0x20);
+	}
+	outb(IRQ_IO1, 0x20);
+
+	if (interrupt_handlers[regs->int_nu]) {
+		interrupt_handlers[regs->int_nu](regs);
+	}
 }
 /* 中断处理函数 */
 void isr_handler(struct pt_regs *regs)
@@ -69,6 +80,21 @@ void init_idt(void)
 	
 	idt_ptrs.limit = sizeof(struct idt_entry) * 256 - 1;
 	idt_ptrs.base = (uint32_t)idt_table; 
+	/* 初始化8259可编程芯片 */
+	outb(IRQ_IO1, 0x11);
+	outb(IRQ_IO2, 0x11);
+
+	outb(IRQ_IO1 + 1, 0x20);
+	outb(IRQ_IO2 + 1, 0x28);
+	
+	outb(IRQ_IO1 + 1, 0x04);
+	outb(IRQ_IO2 + 1, 0x02);
+	
+	outb(IRQ_IO1 + 1, 0x01);
+	outb(IRQ_IO2 + 1, 0x01);
+	
+	outb(IRQ_IO1 + 1, 0x0);
+	outb(IRQ_IO2 + 1, 0x0);
 
 	set_interrupt_gate(0,  (uint32_t)isr0,  0x08, 0x8E);  
 	set_interrupt_gate(1,  (uint32_t)isr1,  0x08, 0x8E);
@@ -102,6 +128,23 @@ void init_idt(void)
 	set_interrupt_gate(29, (uint32_t)isr29, 0x08, 0x8E);
 	set_interrupt_gate(30, (uint32_t)isr30, 0x08, 0x8E);
 	set_interrupt_gate(31, (uint32_t)isr31, 0x08, 0x8E);
+	
+	set_interrupt_gate(32, (uint32_t)irq0,   0x08, 0x8E);
+	set_interrupt_gate(33, (uint32_t)irq1,   0x08, 0x8E);
+	set_interrupt_gate(34, (uint32_t)irq2,   0x08, 0x8E);
+	set_interrupt_gate(35, (uint32_t)irq3,   0x08, 0x8E);
+	set_interrupt_gate(36, (uint32_t)irq4,   0x08, 0x8E);
+	set_interrupt_gate(37, (uint32_t)irq5,   0x08, 0x8E);
+	set_interrupt_gate(38, (uint32_t)irq6,   0x08, 0x8E);
+	set_interrupt_gate(39, (uint32_t)irq7,   0x08, 0x8E);
+	set_interrupt_gate(40, (uint32_t)irq8,   0x08, 0x8E);
+	set_interrupt_gate(41, (uint32_t)irq9,   0x08, 0x8E);
+	set_interrupt_gate(42, (uint32_t)irq10,  0x08, 0x8E);
+	set_interrupt_gate(43, (uint32_t)irq11,  0x08, 0x8E);
+	set_interrupt_gate(44, (uint32_t)irq12,  0x08, 0x8E);
+	set_interrupt_gate(45, (uint32_t)irq13,  0x08, 0x8E);
+	set_interrupt_gate(46, (uint32_t)irq14,  0x08, 0x8E);
+	set_interrupt_gate(47, (uint32_t)irq15,  0x08, 0x8E);
 	
 	set_interrupt_gate(255, (uint32_t)isr255, 0x08, 0x8E);
 	

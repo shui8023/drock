@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  console.h
+ *       Filename:  timer.h
  *
- *    Description:  IO端口的输入输出
+ *    Description:  初始化8254可编程芯片
  *
  *        Version:  1.0
- *        Created:  2014年11月14日 21时07分13秒
+ *        Created:  2015年02月14日 19时53分32秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -16,14 +16,10 @@
  * =====================================================================================
  */
 
-#ifndef __KERN_DRIVER_CONSOLE_H__
-#define __KERN_DEIVER_CONSOLE_H_
+#ifndef __KERN_DRIVER_TIMER_H__
+#define __KERN_DRIVER_TIMER_H__
 
-#include <idt.h>
+void init_timer(uint32_t frequency);
+void handler_timer(struct pt_regs *regs);
 
-void console_init(void);
-void console_putc(int c);
-
-
-#endif  //__KERN_DRIVER_CONSOLE_H__
-
+#endif /* __KERN_DRIVER_TIMER_H__ */

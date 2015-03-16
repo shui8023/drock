@@ -103,6 +103,7 @@ static void cga_putc(int c)
 void console_init(void)
 {
 	cga_init();
+	init_input();
 }
 
 /*@console_putc：输出一个字符
@@ -234,17 +235,18 @@ static void cons_intr(int (*proc)(void))
 	}
 }
 
+ void console_getc(struct pt_regs *regs) 
+{
+	printk("the string\n");
+}
 static int port_proc_data(void)
 {
-	if ()
+	return 0;
 }
 void init_input()
 {
 	register_interrupt_handler(IRQ1, console_getc);
+
 }
 
 
-static void console_getc(struct pt_regs *regs) 
-{
-	
-}

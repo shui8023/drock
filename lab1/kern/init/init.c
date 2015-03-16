@@ -22,6 +22,8 @@
 #include <console.h>
 #include <debug.h>
 #include <idt.h>
+#include <timer.h>
+
 int start(void)
 {
 	/* 必须把数据段初始化为0 */
@@ -29,9 +31,9 @@ int start(void)
 	memset(edata, 0, end-edata);
 	init_idt();
 	console_init();
+	init_timer(200);
 	print_kerninfo();
 
-	asm volatile ("int $3");
 	while (1);
 	return 0;
 }
